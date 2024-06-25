@@ -16,6 +16,7 @@
 
 package com.adaptris.util.datastore;
 
+import io.github.pixee.security.ObjectInputFilters;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -285,6 +286,7 @@ public class SimpleDataStore extends DataStore {
     if (file.exists()) {
       try (FileInputStream in = new FileInputStream(file);
           ObjectInputStream oi = new ObjectInputStream(in)) { // lgtm
+        ObjectInputFilters.enableObjectFilterIfUnprotected(oi);
         data = (HashMap) oi.readObject();
       }
     }

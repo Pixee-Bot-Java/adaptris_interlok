@@ -16,6 +16,7 @@
 
 package com.adaptris.core.services.duplicate;
 
+import io.github.pixee.security.ObjectInputFilters;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -255,6 +256,7 @@ public class DuplicateMessageRoutingService extends ServiceImp {
   private void load() throws Exception {
     if (file.exists()) {
       try (FileInputStream in = new FileInputStream(file); ObjectInputStream ois = new ObjectInputStream(in)) {
+        ObjectInputFilters.enableObjectFilterIfUnprotected(ois);
         comparators = (LinkedList) ois.readObject();
       }
     }
