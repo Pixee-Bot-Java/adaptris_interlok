@@ -16,6 +16,7 @@
 
 package com.adaptris.core.lms;
 
+import io.github.pixee.security.ZipSecurity;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,7 +71,7 @@ class ZipFileBackedMessageImpl extends FileBackedMessageImpl {
       }
     }
     if (isZip) {
-      ZipInputStream zin = new ZipInputStream(super.getInputStream());
+      ZipInputStream zin = ZipSecurity.createHardenedInputStream(super.getInputStream());
       zin.getNextEntry();
       return zin;
     }
