@@ -16,6 +16,7 @@
 
 package com.adaptris.core.services.splitter;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -83,7 +84,7 @@ public class LineCountSplitter extends MessageSplitterImp {
     StringWriter sw = new StringWriter();
     PrintWriter writer = new PrintWriter(sw);
     for (int i = 0; i < keepHeaderLines(); i++) {
-      writer.println(buf.readLine());
+      writer.println(BoundedLineReader.readLine(buf, 5_000_000));
     }
     return sw.toString();
   }
@@ -195,7 +196,7 @@ public class LineCountSplitter extends MessageSplitterImp {
         logR.trace("Working on split {}", numberOfMessages);
         print.print(header);
         while (i < splitOnLine()) {
-          String line = buf.readLine();
+          String line = BoundedLineReader.readLine(buf, 5_000_000);
           if (line == null) {
             break;
           }
