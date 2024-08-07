@@ -16,6 +16,8 @@
 
 package com.adaptris.validation.constraints;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -45,7 +47,7 @@ public class UrlExpressionValidator extends ExpressionValidator<UrlExpression> {
 
     URL url;
     try {
-      url = new URL(value.toString());
+      url = Urls.create(value.toString(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
     } catch (MalformedURLException e) {
       return false;
     }

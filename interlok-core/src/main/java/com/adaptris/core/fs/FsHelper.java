@@ -16,6 +16,8 @@
 
 package com.adaptris.core.fs;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 import java.io.File;
@@ -142,11 +144,11 @@ public abstract class FsHelper {
     if ("file".equals(scheme)) {
       // nb for some reason, configuredUri.toUrl() doesn't work...
       // return configuredUri.toURL();
-      return new URL(configuredUri.toString());
+      return Urls.create(configuredUri.toString(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
     }
     else {
       if (scheme == null) {
-        return new URL("file:///" + configuredUri.toString());
+        return Urls.create("file:///" + configuredUri.toString(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
       }
       else {
         throw new IllegalArgumentException("Illegal URL [" + s + "]");

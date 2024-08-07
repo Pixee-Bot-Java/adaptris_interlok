@@ -1,5 +1,7 @@
 package com.adaptris.interlok.util;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -63,7 +65,7 @@ public abstract class ResourceLocator {
         // which might not exist; which means that we end up returning a somewhat
         // duff file URL which won't resolve anyway, so it probably doesn't
         // matter
-        return new URL("file:///" + new URI(null, path, null).toASCIIString());
+        return Urls.create("file:///" + new URI(null, path, null).toASCIIString(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
       }
 
     };
@@ -80,7 +82,7 @@ public abstract class ResourceLocator {
   public static URL toURL(String s) throws Exception {
     URI configuredUri = toURI(s);
     return isLocal(configuredUri) ? localResource(configuredUri)
-        : new URL(configuredUri.toString());
+        : Urls.create(configuredUri.toString(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
   }
 
   private static boolean isLocal(URI uri) throws Exception {
