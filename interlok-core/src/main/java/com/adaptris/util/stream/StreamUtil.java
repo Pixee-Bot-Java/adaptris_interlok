@@ -16,6 +16,7 @@
 
 package com.adaptris.util.stream;
 
+import java.nio.file.Files;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 import java.io.BufferedOutputStream;
@@ -67,10 +68,10 @@ public abstract class StreamUtil {
 
     File tempFile = null;
     if (isEmpty(dir)) {
-      tempFile = File.createTempFile("tmp", "");
+      tempFile = Files.createTempFile("tmp", "").toFile();
     }
     else {
-      tempFile = File.createTempFile("tmp", "", new File(dir));
+      tempFile = Files.createTempFile(new File(dir).toPath(), "tmp", "").toFile();
     }
 
     try (OutputStream out = new BufferedOutputStream(new FileOutputStream(tempFile))) {
