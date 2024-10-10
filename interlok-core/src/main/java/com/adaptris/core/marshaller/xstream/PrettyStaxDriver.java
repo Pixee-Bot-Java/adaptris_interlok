@@ -19,6 +19,7 @@ package com.adaptris.core.marshaller.xstream;
 import static com.adaptris.core.marshaller.xstream.XStreamUtils.createParentFields;
 import static com.adaptris.core.marshaller.xstream.XStreamUtils.setContainsAnyOf;
 import static com.adaptris.core.marshaller.xstream.XStreamUtils.toFieldName;
+import static io.github.pixee.security.XMLInputFactorySecurity.hardenFactory;
 
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -128,7 +129,7 @@ public class PrettyStaxDriver extends StandardStaxDriver {
 
   // as per StaxDriver.createInputFactor()
   private XMLInputFactory fallbackInputFactory() {
-    XMLInputFactory instance = XMLInputFactory.newInstance();
+    XMLInputFactory instance = hardenFactory(XMLInputFactory.newInstance());
     instance.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
     return instance;
   }
