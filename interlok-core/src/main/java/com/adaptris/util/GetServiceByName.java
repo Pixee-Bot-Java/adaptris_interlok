@@ -16,6 +16,7 @@
 
 package com.adaptris.util;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -164,7 +165,7 @@ public final class GetServiceByName {
       // Skip comments and empty lines.
       BufferedReader buf = new BufferedReader(new InputStreamReader(input));
 
-      while ((line = buf.readLine()) != null && port == -1) {
+      while ((line = BoundedLineReader.readLine(buf, 5_000_000)) != null && port == -1) {
         if (line.length() != 0 && line.charAt(0) != '#') {
           port = parseServicesLine(line, serviceName, serviceType);
         }
