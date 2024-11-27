@@ -16,6 +16,8 @@
 
 package com.adaptris.interlok.junit.scaffolding;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -160,7 +162,7 @@ public abstract class BaseCase {
    */
   protected boolean checkFileExists(String fileUrl) {
     try {
-      URL url = new URL(fileUrl);
+      URL url = Urls.create(fileUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
       File file = new File(url.getFile());
 
       return file.exists();
@@ -177,7 +179,7 @@ public abstract class BaseCase {
    */
   protected void removeFile(String fileUrl) {
     try {
-      URL url = new URL(fileUrl);
+      URL url = Urls.create(fileUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
       File file = new File(url.getFile());
 
       file.delete();

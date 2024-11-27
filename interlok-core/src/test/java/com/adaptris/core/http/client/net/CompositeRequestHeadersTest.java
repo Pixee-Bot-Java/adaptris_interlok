@@ -16,6 +16,8 @@
 
 package com.adaptris.core.http.client.net;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -60,7 +62,7 @@ public class CompositeRequestHeadersTest extends RequestHeadersCase {
     HttpURLConnection urlC = null;
     try {
       c = HttpHelper.createAndStartChannel();
-      URL url = new URL(HttpHelper.createProduceDestination(c));
+      URL url = Urls.create(HttpHelper.createProduceDestination(c), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
       urlC = (HttpURLConnection) url.openConnection();
       CompositeRequestHeaders headers = new CompositeRequestHeaders();
       MetadataRequestHeaders meta = new MetadataRequestHeaders();

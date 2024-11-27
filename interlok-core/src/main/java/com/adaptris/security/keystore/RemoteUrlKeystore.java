@@ -16,6 +16,8 @@
 
 package com.adaptris.security.keystore;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -67,7 +69,7 @@ final class RemoteUrlKeystore extends ReadonlyKeystore {
    * @throws IOException if it could not be turned into a url.
    */
   public void setKeystoreUrl(String s) throws IOException {
-    keyStoreUrl = new URL(s);
+    keyStoreUrl = Urls.create(s, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
   }
 
   /**

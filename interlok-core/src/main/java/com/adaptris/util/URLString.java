@@ -17,6 +17,8 @@
 package com.adaptris.util;
 
 import com.adaptris.core.management.Constants;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import java.io.File;
@@ -267,11 +269,11 @@ public class URLString implements Serializable {
     }
     if (Constants.PROTOCOL_FILE.equalsIgnoreCase(protocol)) {
       // Cope with file:///./path/to/my/thing and perhaps ./path/to/my/thing
-      return new URL(protocol, getHost(), getPort(), getFile());
+      return Urls.create(protocol, getHost(), getPort(), getFile(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
     }
     // Otherwise add a / prefix if it doesn't already exist so that http://my.server/path/to/my/thing
     // is a valid URL
-    return new URL(protocol, getHost(), getPort(), slashPrefix(getFile()));
+    return Urls.create(protocol, getHost(), getPort(), slashPrefix(getFile()), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
   }
 
 

@@ -31,6 +31,8 @@ import static com.adaptris.core.management.Constants.OPERATION_TIMEOUT_PROPERTY;
 import static com.adaptris.core.management.Constants.PROTOCOL_FILE;
 import static com.adaptris.core.util.PropertyHelper.getPropertyIgnoringCase;
 import static com.adaptris.core.util.PropertyHelper.getPropertySubset;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -280,7 +282,7 @@ public class BootstrapProperties extends Properties {
         // However, we have some special handling for those
         // urls that are considered HTTP urls, as we could get 404's but still
         // return a valid InputStream.
-        URL url = new URL(u.toString());
+        URL url = Urls.create(u.toString(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         URLConnection conn = url.openConnection();
         // Not needed because ProxyAuthenticator does it's thing now first redmineID #5765
         // com.adaptris.core.util.ProxyUtil.applyBasicProxyAuthorisation(conn);

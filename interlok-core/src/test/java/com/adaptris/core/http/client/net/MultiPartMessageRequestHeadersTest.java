@@ -1,5 +1,7 @@
 package com.adaptris.core.http.client.net;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -39,7 +41,7 @@ public class MultiPartMessageRequestHeadersTest extends RequestHeadersCase {
     Channel c = null;
     try {
       c = HttpHelper.createAndStartChannel();
-      URL url = new URL(HttpHelper.createProduceDestination(c));
+      URL url = Urls.create(HttpHelper.createProduceDestination(c), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
       HttpURLConnection urlC = (HttpURLConnection) url.openConnection();
       MultiPartMessageRequestHeaders headers = new MultiPartMessageRequestHeaders();
       AdaptrisMessage msg = AdaptrisMessageFactory.getDefaultInstance().newMessage(MULTI_PART);
@@ -57,7 +59,7 @@ public class MultiPartMessageRequestHeadersTest extends RequestHeadersCase {
     Channel c = null;
     try {
       c = HttpHelper.createAndStartChannel();
-      URL url = new URL(HttpHelper.createProduceDestination(c));
+      URL url = Urls.create(HttpHelper.createProduceDestination(c), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
       HttpURLConnection urlC = (HttpURLConnection) url.openConnection();
       MultiPartMessageRequestHeaders headers = new MultiPartMessageRequestHeaders();
       headers.setUnfold(true);
@@ -75,7 +77,7 @@ public class MultiPartMessageRequestHeadersTest extends RequestHeadersCase {
     Channel c = null;
     try {
       c = HttpHelper.createAndStartChannel();
-      URL url = new URL(HttpHelper.createProduceDestination(c));
+      URL url = Urls.create(HttpHelper.createProduceDestination(c), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
       HttpURLConnection urlC = (HttpURLConnection) url.openConnection();
       MultiPartMessageRequestHeaders headers = new MultiPartMessageRequestHeaders();
       headers.setExcludeMessageId(false);
@@ -94,7 +96,7 @@ public class MultiPartMessageRequestHeadersTest extends RequestHeadersCase {
     Channel c = null;
     try {
       c = HttpHelper.createAndStartChannel();
-      URL url = new URL(HttpHelper.createProduceDestination(c));
+      URL url = Urls.create(HttpHelper.createProduceDestination(c), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
       final HttpURLConnection urlC = (HttpURLConnection) url.openConnection();
       MultiPartMessageRequestHeaders headers = new MultiPartMessageRequestHeaders();
       AdaptrisMessage msg = new DefectiveMessageFactory().newMessage();
