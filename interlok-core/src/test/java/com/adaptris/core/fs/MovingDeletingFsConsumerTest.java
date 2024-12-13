@@ -13,6 +13,7 @@
 
 package com.adaptris.core.fs;
 
+import java.nio.file.Files;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -140,7 +141,7 @@ public class MovingDeletingFsConsumerTest extends FsConsumerCase {
     baseDir.mkdirs();
     final List<File> result = new ArrayList<>();
     for (int i = 0; i < count; i++) {
-      result.add(File.createTempFile("FSC", ext, baseDir));
+      result.add(Files.createTempFile(baseDir.toPath(), "FSC", ext).toFile());
     }
     return result;
   }

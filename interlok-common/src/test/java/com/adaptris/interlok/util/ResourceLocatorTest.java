@@ -1,5 +1,6 @@
 package com.adaptris.interlok.util;
 
+import java.nio.file.Files;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -74,7 +75,7 @@ public class ResourceLocatorTest extends ResourceLocator {
 
 
   private static File createTrackedFile(Object tracker, File dir) throws IOException {
-    File f = File.createTempFile("ResourceLocatorTest", "", dir);
+    File f = Files.createTempFile(dir.toPath(), "ResourceLocatorTest", "").toFile();
     return trackFile(f, tracker);
   }
 

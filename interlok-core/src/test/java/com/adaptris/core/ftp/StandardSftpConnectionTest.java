@@ -23,6 +23,7 @@ import static com.adaptris.core.ftp.SftpExampleHelper.CFG_REMOTE_DIR;
 import static com.adaptris.core.ftp.SftpExampleHelper.CFG_TEMP_HOSTS_FILE;
 import static com.adaptris.core.ftp.SftpExampleHelper.CFG_UNKNOWN_HOSTS_FILE;
 import static com.adaptris.core.ftp.SftpExampleHelper.CFG_USER;
+import java.nio.file.Files;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -257,7 +258,7 @@ public class StandardSftpConnectionTest extends FtpConnectionCase {
     if (!tempDir.exists() && !tempDir.mkdirs()) {
       throw new Exception("Couldn't make directory " + tempDir.getCanonicalPath());
     }
-    File tempFile = File.createTempFile(StandardSftpConnectionTest.class.getSimpleName(), "", tempDir);
+    File tempFile = Files.createTempFile(tempDir.toPath(), StandardSftpConnectionTest.class.getSimpleName(), "").toFile();
     FileUtils.copyFile(srcKnownHosts, tempFile);
     cleaner.track(tempFile, fileTracker, FileDeleteStrategy.FORCE);
     return tempFile;

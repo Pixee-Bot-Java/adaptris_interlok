@@ -16,6 +16,7 @@
 
 package com.adaptris.util.datastore;
 
+import java.nio.file.Files;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
@@ -80,8 +81,8 @@ public class TestSimpleDataStore {
 
   private static Properties createProperties() throws IOException {
     Properties sp = new Properties();
-    File dataFile = File.createTempFile("junitsds", ".dat");
-    File lockFile = File.createTempFile("junitsds", ".lock");
+    File dataFile = Files.createTempFile("junitsds", ".dat").toFile();
+    File lockFile = Files.createTempFile("junitsds", ".lock").toFile();
     dataFile.delete();
     lockFile.delete();
     sp.setProperty(SimpleDataStore.FILE_PROPERTY, dataFile.getCanonicalPath());

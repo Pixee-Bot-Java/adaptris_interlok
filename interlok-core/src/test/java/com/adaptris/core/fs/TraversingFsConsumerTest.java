@@ -16,6 +16,7 @@
 
 package com.adaptris.core.fs;
 
+import java.nio.file.Files;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -131,7 +132,7 @@ public class TraversingFsConsumerTest extends FsConsumerCase {
       if (!subDir.exists()) {
         subDir.mkdirs();
       }
-      result.add(File.createTempFile("FSC", ext, subDir));
+      result.add(Files.createTempFile(subDir.toPath(), "FSC", ext).toFile());
     }
     return result;
   }

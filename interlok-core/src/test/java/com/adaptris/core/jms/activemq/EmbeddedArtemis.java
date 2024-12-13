@@ -21,6 +21,7 @@ import static com.adaptris.interlok.junit.scaffolding.util.PortManager.release;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.concurrent.TimeUnit;
 
 import javax.management.MBeanServer;
@@ -98,7 +99,7 @@ public class EmbeddedArtemis {
   }
 
   private File createTempFile(boolean isDir) throws IOException {
-    File result = File.createTempFile("ARTEMIS-", "");
+    File result = Files.createTempFile("ARTEMIS-", "").toFile();
     result.delete();
     if (isDir) {
       result.mkdirs();

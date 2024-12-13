@@ -16,6 +16,7 @@
 
 package com.adaptris.core.lms;
 
+import java.nio.file.Files;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -103,7 +104,7 @@ public class FileBackedMessageFactoryTest extends AdaptrisMessageFactoryImplCase
 
 
   private String tempDir() throws IOException {
-    File f = File.createTempFile(FileBackedMessageFactoryTest.class.getSimpleName(), "", null);
+    File f = Files.createTempFile(null.toPath(), FileBackedMessageFactoryTest.class.getSimpleName(), "").toFile();
     f.delete();
     cleaner.track(f, marker, FileDeleteStrategy.FORCE);
     return f.getCanonicalPath();

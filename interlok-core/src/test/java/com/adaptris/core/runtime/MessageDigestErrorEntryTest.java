@@ -16,6 +16,7 @@
 
 package com.adaptris.core.runtime;
 
+import java.nio.file.Files;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -116,7 +117,7 @@ public class MessageDigestErrorEntryTest {
   }
 
   private File deleteLater(Object marker) throws IOException {
-    File file = File.createTempFile(this.getClass().getSimpleName(), "");
+    File file = Files.createTempFile(this.getClass().getSimpleName(), "").toFile();
     cleaner.track(file, marker, FileDeleteStrategy.FORCE);
     return file;
   }

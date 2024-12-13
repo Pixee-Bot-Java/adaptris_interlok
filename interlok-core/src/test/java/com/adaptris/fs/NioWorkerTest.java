@@ -16,6 +16,7 @@
 
 package com.adaptris.fs;
 
+import java.nio.file.Files;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -48,7 +49,7 @@ public class NioWorkerTest extends StandardWorkerTest {
   @Test
   public void testLockWhileWriting() throws Exception {
     NioWorker worker = createWorker();
-    File f = File.createTempFile(this.getClass().getSimpleName(), "");
+    File f = Files.createTempFile(this.getClass().getSimpleName(), "").toFile();
     f.delete();
     try {
       RandomAccessFile raf = new RandomAccessFile(f, "rwd");
@@ -74,7 +75,7 @@ public class NioWorkerTest extends StandardWorkerTest {
   @Test
   public void testLockWhileReading() throws Exception {
     FsWorker worker = createWorker();
-    File f = File.createTempFile(this.getClass().getSimpleName(), "");
+    File f = Files.createTempFile(this.getClass().getSimpleName(), "").toFile();
     f.delete();
     try {
       worker.put(BYTES, f);

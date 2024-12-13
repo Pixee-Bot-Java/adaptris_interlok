@@ -16,6 +16,7 @@
 
 package com.adaptris.interlok.junit.scaffolding;
 
+import java.nio.file.Files;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
@@ -294,7 +295,7 @@ public abstract class MarshallingBaseCase extends com.adaptris.interlok.junit.sc
   public void testMarshalToFile_NonExistent() throws Exception {
     AdaptrisMarshaller marshaller = createMarshaller();
     Adapter adapter = createMarshallingObject();
-    File dir = File.createTempFile("pfx", ".sfx");
+    File dir = Files.createTempFile("pfx", ".sfx").toFile();
     File nonExistent = new File(dir, new GuidGenerator().getUUID());
     try {
       marshaller.marshal(adapter, nonExistent);
@@ -324,7 +325,7 @@ public abstract class MarshallingBaseCase extends com.adaptris.interlok.junit.sc
   @Test
   public void testUnmarshal_NonExistent() throws Exception {
     AdaptrisMarshaller marshaller = createMarshaller();
-    File dir = File.createTempFile("pfx", ".sfx");
+    File dir = Files.createTempFile("pfx", ".sfx").toFile();
     File nonExistent = new File(dir, new GuidGenerator().getUUID());
     try {
       marshaller.unmarshal(nonExistent);
