@@ -16,6 +16,7 @@
 
 package com.adaptris.util;
 
+import io.github.pixee.security.ObjectInputFilters;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
@@ -211,6 +212,7 @@ public class TestURLString extends com.adaptris.interlok.junit.scaffolding.BaseC
     URLString urlString = new URLString(httpURL);
     File f = new File(PROPERTIES.getProperty(TEST_SERIALIZED_FILE));
     try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(f))) {
+      ObjectInputFilters.enableObjectFilterIfUnprotected(in);
       URLString url = (URLString) in.readObject();
       assertEquals(httpURL, url.toString());
       assertEquals(urlString, url);
@@ -225,6 +227,7 @@ public class TestURLString extends com.adaptris.interlok.junit.scaffolding.BaseC
       output.writeObject(url);
     }
     try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(f))) {
+      ObjectInputFilters.enableObjectFilterIfUnprotected(in);
       roundtrip = (URLString) in.readObject();
     }
     return roundtrip;

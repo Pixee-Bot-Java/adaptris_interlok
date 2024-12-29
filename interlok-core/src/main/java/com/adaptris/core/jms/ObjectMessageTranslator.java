@@ -16,6 +16,7 @@
 
 package com.adaptris.core.jms;
 
+import io.github.pixee.security.ObjectInputFilters;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -59,6 +60,7 @@ public final class ObjectMessageTranslator extends MessageTypeTranslatorImp {
       if (msg.getSize() > 0) {
         InputStream in = msg.getInputStream();
         ObjectInputStream object = new ObjectInputStream(in);
+        ObjectInputFilters.enableObjectFilterIfUnprotected(object);
         result.setObject((Serializable) object.readObject());
         object.close();
         in.close();
