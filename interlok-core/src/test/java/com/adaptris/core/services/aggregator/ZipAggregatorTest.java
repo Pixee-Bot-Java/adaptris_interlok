@@ -1,6 +1,7 @@
 package com.adaptris.core.services.aggregator;
 
 import static com.adaptris.core.services.aggregator.ZipAggregator.DEFAULT_FILENAME_METADATA;
+import io.github.pixee.security.ZipSecurity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -143,7 +144,7 @@ public class ZipAggregatorTest extends AggregatingServiceExample {
     byte[] buffer = new byte[1024];
 
     Map<String, String> results = new HashMap<>();
-    ZipInputStream zis = new ZipInputStream(new ByteArrayInputStream(bytes));
+    ZipInputStream zis = ZipSecurity.createHardenedInputStream(new ByteArrayInputStream(bytes));
     try {
       ZipEntry ze;
       while ((ze = zis.getNextEntry()) != null) {
