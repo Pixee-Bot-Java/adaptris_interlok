@@ -15,6 +15,8 @@
 */
 package com.adaptris.util;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -47,7 +49,7 @@ public abstract class URLHelper {
     if (loc.getProtocol() == null || "file".equals(loc.getProtocol())) {
       return connectToFile(loc.getFile());
     }
-    URL url = new URL(loc.toString());
+    URL url = Urls.create(loc.toString(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
     URLConnection conn = url.openConnection();
     
     conn.setReadTimeout(30000); // set the timeout.

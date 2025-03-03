@@ -16,6 +16,8 @@
 
 package com.adaptris.security.certificate;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -249,7 +251,7 @@ public abstract class RevocationService {
      * @return a X509CRL
      */
     private X509CRL getCRL(String urlString) throws Exception {
-      try (InputStream crlStream = new URL(urlString).openStream()) {
+      try (InputStream crlStream = Urls.create(urlString, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream()) {
         return (X509CRL) CertificateFactory.getInstance("X.509").generateCRL(crlStream);
       }
     }

@@ -17,6 +17,8 @@ package com.adaptris.core.http.client.net;
 import static com.adaptris.core.AdaptrisMessageFactory.defaultIfNull;
 import static com.adaptris.core.http.HttpConstants.CONTENT_TYPE;
 import static com.adaptris.util.stream.StreamUtil.copyAndClose;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -221,7 +223,7 @@ public class StandardHttpProducer extends HttpProducer<HttpURLConnection, HttpUR
   private AdaptrisMessage doRequest(AdaptrisMessage msg, String endpointUrl, long timeout,
       AdaptrisMessage reply) throws ProduceException {
     try {
-      URL url = new URL(endpointUrl);
+      URL url = Urls.create(endpointUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
       authenticator.setup(url.toString(), msg, null);
       HttpURLConnection http =
           configure(configureTimeouts((HttpURLConnection) url.openConnection(), timeout), msg);

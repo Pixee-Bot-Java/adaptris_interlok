@@ -16,6 +16,8 @@
 
 package com.adaptris.core.jms.activemq;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -107,7 +109,7 @@ public final class BlobMessageTranslator extends MessageTypeTranslatorImp {
     BlobMessage jmsMsg = null;
     try {
       if (metadataUrlKey != null && msg.containsKey(metadataUrlKey)) {
-        jmsMsg = ((ActiveMQSession) session).createBlobMessage(new URL(msg.getMetadataValue(metadataUrlKey)));
+        jmsMsg = ((ActiveMQSession) session).createBlobMessage(Urls.create(msg.getMetadataValue(metadataUrlKey), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
       }
       else {
         if (msg instanceof FileBackedMessage) {

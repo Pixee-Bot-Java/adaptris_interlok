@@ -16,6 +16,8 @@
 
 package com.adaptris.core.services.metadata;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -113,7 +115,7 @@ public class CheckUniqueMetadataValueService extends BranchingServiceImp {
     try {
       Args.notBlank(getMetadataKeyToCheck(), "metadataKeyToCheck");
       Args.notBlank(getStoreFileUrl(), "storeFileUrl");
-      this.store = new File(new URL(getStoreFileUrl()).getFile());
+      this.store = new File(Urls.create(getStoreFileUrl(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).getFile());
       this.loadPreviouslyReceivedValues();
 
       if (previousValuesStore == null) {
