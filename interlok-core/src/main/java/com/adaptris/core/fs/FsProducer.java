@@ -21,6 +21,7 @@ import static com.adaptris.core.CoreConstants.PRODUCED_NAME_KEY;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -181,7 +182,7 @@ public class FsProducer extends ProduceOnlyProducerImp {
     URL tmpDirUrl = FsHelper.createUrlFromString(getTempDirectory(), true);
     validateDir(tmpDirUrl);
     File tmpDir = FsHelper.createFileReference(tmpDirUrl);
-    File tmpFile = File.createTempFile(msg.getUniqueId() + "-", null, tmpDir);
+    File tmpFile = Files.createTempFile(tmpDir.toPath(), msg.getUniqueId() + "-", null).toFile();
     // Of course, this tmp file exists, so let's delete it...
     tmpFile.delete();
     return tmpFile;

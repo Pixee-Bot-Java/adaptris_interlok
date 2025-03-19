@@ -19,6 +19,7 @@ package com.adaptris.core.stubs;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -56,7 +57,7 @@ public class TempFileUtils {
       Supplier<String> content)
       throws IOException {
     Args.notNull(tracker, "tracker");
-    File f = File.createTempFile(prefix, suffix, baseDir);
+    File f = Files.createTempFile(baseDir.toPath(), prefix, suffix).toFile();
     f.delete();
     Optional.ofNullable(content).ifPresent((c) -> {
       try {
@@ -78,7 +79,7 @@ public class TempFileUtils {
   }
 
   public static File createTrackedDir(String prefix, String suffix, File baseDir, Object tracker) throws IOException {
-    File f = File.createTempFile(prefix, suffix, baseDir);
+    File f = Files.createTempFile(baseDir.toPath(), prefix, suffix).toFile();
     f.delete();
     f.mkdirs();
     cleaner.track(f, tracker, FileDeleteStrategy.FORCE);

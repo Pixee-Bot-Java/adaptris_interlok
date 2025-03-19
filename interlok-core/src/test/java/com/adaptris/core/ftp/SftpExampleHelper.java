@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,7 +133,7 @@ public class SftpExampleHelper {
 
   public static File createOpenSshConfig(File targetDir, boolean strict) throws Exception {
     targetDir.mkdirs();
-    File tempFile = File.createTempFile(SftpExampleHelper.class.getSimpleName(), "", targetDir);
+    File tempFile = Files.createTempFile(targetDir.toPath(), SftpExampleHelper.class.getSimpleName(), "").toFile();
     try (PrintStream out = new PrintStream(new FileOutputStream(tempFile))) {
       out.println("Host *");
       out.println("  StrictHostKeyChecking " + BooleanUtils.toStringYesNo(strict));
