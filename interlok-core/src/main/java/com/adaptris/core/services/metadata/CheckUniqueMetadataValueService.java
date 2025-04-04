@@ -16,6 +16,7 @@
 
 package com.adaptris.core.services.metadata;
 
+import io.github.pixee.security.ObjectInputFilters;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -187,6 +188,7 @@ public class CheckUniqueMetadataValueService extends BranchingServiceImp {
     if (store.exists()) {
       try (FileInputStream in = new FileInputStream(store);
           ObjectInputStream o = new ObjectInputStream(in)) {
+        ObjectInputFilters.enableObjectFilterIfUnprotected(o);
         previousValuesStore = (ArrayList<Object>) o.readObject();
       }
     }
