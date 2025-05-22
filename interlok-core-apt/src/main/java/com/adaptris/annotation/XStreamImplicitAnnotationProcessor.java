@@ -18,6 +18,7 @@ package com.adaptris.annotation;
 
 import static com.adaptris.annotation.AnnotationConstants.STANDARD_FIELD_SEPARATOR;
 import static com.adaptris.annotation.AnnotationConstants.XSTREAM_IMPLICIT_PROPERTIES_FILE;
+import io.github.pixee.security.BoundedLineReader;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -101,7 +102,7 @@ public class XStreamImplicitAnnotationProcessor extends AnnotationProcessorImpl 
     FileObject fo = processingEnv.getFiler().getResource(StandardLocation.CLASS_OUTPUT, "", outputFile);
     try(BufferedReader r = new BufferedReader(fo.openReader(false))) {
       String className;
-      while((className = r.readLine()) != null) {
+      while((className = BoundedLineReader.readLine(r, 5_000_000)) != null) {
         entries.add(className);
       }
     }
