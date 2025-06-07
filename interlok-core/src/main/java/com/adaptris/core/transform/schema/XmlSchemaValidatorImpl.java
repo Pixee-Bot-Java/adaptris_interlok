@@ -14,6 +14,8 @@
 
 package com.adaptris.core.transform.schema;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 import javax.validation.Valid;
@@ -104,7 +106,7 @@ public abstract class XmlSchemaValidatorImpl extends MessageValidatorImpl {
     Cache cache = schemaCacheConnection.retrieveConnection(CacheConnection.class).retrieveCache();
     Schema schema = (Schema) cache.get(urlString);
     if (schema == null) {
-      schema = schemaFactory.newSchema(new URL(urlString));
+      schema = schemaFactory.newSchema(Urls.create(urlString, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
       cache.put(urlString, schema);
     }
     return schema;

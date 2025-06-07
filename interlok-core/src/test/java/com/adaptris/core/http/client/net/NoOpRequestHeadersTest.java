@@ -16,6 +16,8 @@
 
 package com.adaptris.core.http.client.net;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -41,7 +43,7 @@ public class NoOpRequestHeadersTest extends RequestHeadersCase {
     HttpURLConnection urlC = null;
     try {
       c = HttpHelper.createAndStartChannel();
-      URL url = new URL(HttpHelper.createProduceDestination(c));
+      URL url = Urls.create(HttpHelper.createProduceDestination(c), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
       urlC = (HttpURLConnection) url.openConnection();
       String name = info.getDisplayName();
       NoRequestHeaders headers = new NoRequestHeaders();

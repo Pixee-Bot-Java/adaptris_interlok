@@ -16,6 +16,8 @@
 
 package com.adaptris.fs;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -57,7 +59,7 @@ public class StandardWorkerTest extends FsCase {
   @BeforeEach
   public void setUp() throws Exception {
     String subDir = new GuidGenerator().safeUUID();
-    baseUrl = new URL(PROPERTIES.getProperty(BASE_KEY) + "/" + subDir);
+    baseUrl = Urls.create(PROPERTIES.getProperty(BASE_KEY) + "/" + subDir, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
     baseDir = FsHelper.createFileReference(baseUrl);
     baseDir.mkdirs();
   }

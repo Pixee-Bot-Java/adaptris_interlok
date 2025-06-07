@@ -16,6 +16,8 @@
 
 package com.adaptris.util.text.xml;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -116,13 +118,13 @@ public class Resolver implements EntityResolver, URIResolver {
     try {
       URL myUrl = null;
       try {
-        myUrl = new URL(href);
+        myUrl = Urls.create(href, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
       }
       catch (Exception ex) {
         // Indicates that the URL was probably relative and therefore Malformed
         int end = base.lastIndexOf('/');
         String url = base.substring(0, end + 1);
-        myUrl = new URL(url + href);
+        myUrl = Urls.create(url + href, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
       }
       result = new StreamSource(retrieveAndCache(new URLString(myUrl)), myUrl.toExternalForm());
     }
