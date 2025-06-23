@@ -16,6 +16,7 @@
 
 package com.adaptris.core.lms;
 
+import java.nio.file.Files;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -167,7 +168,7 @@ public class LargeFsConsumerTest extends FsMessageConsumerTest {
     List<File> result = new ArrayList<File>();
     baseDir.mkdirs();
     for (int i = 0; i < count; i++) {
-      result.add(writeContent(File.createTempFile("FSC", ext, baseDir)));
+      result.add(writeContent(Files.createTempFile(baseDir.toPath(), "FSC", ext).toFile()));
     }
     return result;
   }

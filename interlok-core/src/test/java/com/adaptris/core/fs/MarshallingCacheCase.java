@@ -15,6 +15,7 @@
 */
 
 package com.adaptris.core.fs;
+import java.nio.file.Files;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -40,7 +41,7 @@ public abstract class MarshallingCacheCase extends ExpiringCacheCase {
   
   @BeforeEach
   public void setUp() throws Exception {
-    persistentStore = File.createTempFile(this.getClass().getSimpleName(), "");
+    persistentStore = Files.createTempFile(this.getClass().getSimpleName(), "").toFile();
     persistentStore.delete();
   }
 
@@ -73,7 +74,7 @@ public abstract class MarshallingCacheCase extends ExpiringCacheCase {
   public void testPersistenceWithBadPersistentStore() throws Exception {
     String oldName = Thread.currentThread().getName();
     MarshallingItemCache cache = createCache();
-    File badStore = File.createTempFile(this.getClass().getSimpleName(), "");
+    File badStore = Files.createTempFile(this.getClass().getSimpleName(), "").toFile();
     badStore.delete();
     badStore.mkdirs();
     cache.setPersistentStore(badStore.getCanonicalPath());
@@ -98,7 +99,7 @@ public abstract class MarshallingCacheCase extends ExpiringCacheCase {
   public void testPersistenceWithZeroLengthPersistentStore() throws Exception {
     String oldName = Thread.currentThread().getName();
     MarshallingItemCache cache = createCache();
-    File badStore = File.createTempFile(this.getClass().getSimpleName(), "");
+    File badStore = Files.createTempFile(this.getClass().getSimpleName(), "").toFile();
     cache.setPersistentStore(badStore.getCanonicalPath());
     try {
       Thread.currentThread().setName("testPersistenceWithZeroLengthPersistentStore");

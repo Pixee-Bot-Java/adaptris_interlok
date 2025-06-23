@@ -16,6 +16,7 @@
 
 package com.adaptris.core.fs;
 
+import java.nio.file.Files;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -500,7 +501,7 @@ public class FsMessageConsumerTest extends FsConsumerCase {
       File baseDir = new File(parentDir, subDir);
       LifecycleHelper.init(sc);
 
-      File largeFile = File.createTempFile("3304", null, baseDir);
+      File largeFile = Files.createTempFile(baseDir.toPath(), "3304", null).toFile();
       RandomAccessFile raf = new RandomAccessFile(largeFile, "rw");
       // Set the size to be 10Mb.
       raf.setLength(0x00100000 * 10);
@@ -550,7 +551,7 @@ public class FsMessageConsumerTest extends FsConsumerCase {
     List<File> result = new ArrayList<File>();
     baseDir.mkdirs();
     for (int i = 0; i < count; i++) {
-      result.add(File.createTempFile("FSC", ext, baseDir));
+      result.add(Files.createTempFile(baseDir.toPath(), "FSC", ext).toFile());
       if (pause > 0) {
         Thread.sleep(pause);
       }

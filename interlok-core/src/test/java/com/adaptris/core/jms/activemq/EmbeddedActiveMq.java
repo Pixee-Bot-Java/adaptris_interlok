@@ -24,6 +24,7 @@ import static com.adaptris.interlok.junit.scaffolding.util.PortManager.release;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -117,7 +118,7 @@ public class EmbeddedActiveMq {
   }
 
   private File createTempFile(boolean isDir) throws IOException {
-    File result = File.createTempFile("AMQ-", "");
+    File result = Files.createTempFile("AMQ-", "").toFile();
     result.delete();
     if (isDir) {
       result.mkdirs();

@@ -16,6 +16,7 @@
 
 package com.adaptris.core.lms;
 
+import java.nio.file.Files;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import java.io.File;
 import java.io.FileInputStream;
@@ -176,7 +177,7 @@ public class FileBackedMessageFactory extends DefaultMessageFactory {
   }
 
   private File createTempFile(File tempDir, Object marker) throws IOException {
-    File f = File.createTempFile(TMP_FILE_PREFIX, TMP_FILE_SUFFIX, tempDir);
+    File f = Files.createTempFile(tempDir.toPath(), TMP_FILE_PREFIX, TMP_FILE_SUFFIX).toFile();
     cleaner.track(f, Args.notNull(marker, "marker"), FileDeleteStrategy.FORCE);
     return f;
   }
