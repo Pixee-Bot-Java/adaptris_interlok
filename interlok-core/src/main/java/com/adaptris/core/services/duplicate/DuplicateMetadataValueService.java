@@ -16,6 +16,7 @@
 
 package com.adaptris.core.services.duplicate;
 
+import io.github.pixee.security.ObjectInputFilters;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
@@ -67,6 +68,7 @@ public abstract class DuplicateMetadataValueService extends ServiceImp {
   protected void loadPreviouslyReceivedValues() throws Exception {
     if (store.exists()) {
       try (FileInputStream in = new FileInputStream(store); ObjectInputStream o = new ObjectInputStream(in)) {
+        ObjectInputFilters.enableObjectFilterIfUnprotected(o);
         previousValuesStore = (ArrayList<String>) o.readObject();
       }
     }

@@ -16,6 +16,7 @@
 
 package com.adaptris.core.jms;
 
+import io.github.pixee.security.ObjectInputFilters;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -112,6 +113,7 @@ public class ObjectMessageTranslatorTest extends GenericMessageTypeTranslatorCas
   protected static Exception readException(AdaptrisMessage msg) throws IOException, ClassNotFoundException {
     InputStream in = msg.getInputStream();
     ObjectInputStream objIn = new ObjectInputStream(in);
+    ObjectInputFilters.enableObjectFilterIfUnprotected(objIn);
     Object o = objIn.readObject();
     objIn.close();
     in.close();
