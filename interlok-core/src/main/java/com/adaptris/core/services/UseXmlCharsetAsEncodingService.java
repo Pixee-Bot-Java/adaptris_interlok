@@ -16,6 +16,7 @@
 
 package com.adaptris.core.services;
 
+import static io.github.pixee.security.XMLInputFactorySecurity.hardenFactory;
 import java.io.InputStream;
 
 import javax.xml.stream.XMLInputFactory;
@@ -102,7 +103,7 @@ public class UseXmlCharsetAsEncodingService extends ServiceImp {
   }
 
   private static XMLInputFactory createInputFactory() {
-    XMLInputFactory factory = XMLInputFactory.newFactory();
+    XMLInputFactory factory = hardenFactory(XMLInputFactory.newFactory());
     factory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
     return factory;
   }
