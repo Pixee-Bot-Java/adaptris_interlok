@@ -16,6 +16,7 @@
 
 package com.adaptris.core.lms;
 
+import io.github.pixee.security.ZipSecurity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
@@ -188,7 +189,7 @@ public class ZipFileBackedMessageTest extends FileBackedMessageTest {
     }
 
     // Check if the InputStream from the message also yields compressed data
-    try (ZipInputStream zin = new ZipInputStream(orig.getInputStream());
+    try (ZipInputStream zin = ZipSecurity.createHardenedInputStream(orig.getInputStream());
         ByteArrayOutputStream out = new ByteArrayOutputStream()) {
       zin.getNextEntry();
       IOUtils.copy(zin, out);
